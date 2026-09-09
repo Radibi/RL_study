@@ -14,9 +14,15 @@ class Stage(IntEnum):
     PLACE_FOOD = 3
 
 
-def advance_stage(stage: Stage, door_angle: float, tactile_max: float, food_distance: float) -> Stage:
+def advance_stage(
+    stage: Stage,
+    door_angle: float,
+    handle_distance: float,
+    tactile_max: float,
+    food_distance: float,
+) -> Stage:
     """Advance monotonically to prevent reward hacking by closing the door."""
-    if stage == Stage.HANDLE and door_angle > 0.12:
+    if stage == Stage.HANDLE and door_angle > 0.12 and handle_distance < 0.12:
         return Stage.OPEN_DOOR
     if stage == Stage.OPEN_DOOR and door_angle > 0.72:
         return Stage.GRASP_FOOD
